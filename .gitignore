@@ -1,12 +1,11 @@
 *.class
 !test/sampleBin/echoserver/*.class
 
-# Ignore the tmp directory that Aruba creates and puts all of its test
-# files in.
-test/tmp
-
 # Package Files #
 *.jar
 *.war
 *.ear
 /bin
+
+# Emacs tilde files
+*~

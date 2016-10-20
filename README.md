@@ -19,8 +19,8 @@ client and server).
 ##Table of contents
 
 -   [The echo client/server](#-the-echo-clientserver)
-    -   [Testing](#-testing)
-        -   [Manual testing](#-manual-testing)
+    -   [Bats Testing](#-testing)
+    -   [Manual testing](#-manual-testing)
 
 ------------------------------------------------------------------------
 

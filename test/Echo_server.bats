@@ -1,21 +1,71 @@
 #!/usr/bin/env bats
 
-Scenario: Sending text: premade client, your server
-  Given a server from "../bin/echoserver/EchoServer.class" and a client from "sampleBin/echoserver/EchoClient.class"
-  When I run the echo client with the file "etc/textTest.txt" outputting to "output.txt"
-  Then the file "output.txt" exists
-  And the file "output.txt" should differ from "etc/textTest.txt" only by whitespace
-
-Scenario: Sending images: premade client, your server
-  Given a server from "../bin/echoserver/EchoServer.class" and a client from "sampleBin/echoserver/EchoClient.class"
-  When I run the echo client with the file "etc/pumpkins.jpg" outputting to "output.jpg"
-  Then the file "output.jpg" exists
-  And the file "output.jpg" should differ from "etc/pumpkins.jpg" only by whitespace
-
-@setup {
-  mktemp
+setup() {
+  BATS_TMPDIR=`mktemp --directory`
 }
 
-@test {
+teardown() {
+  rm -rf "$BATS_TMPDIR"
+}
 
+@test "Your server code compiles" {
+  cd src
+  rm -f echoserver/EchoServer.class
+  run javac echoserver/EchoServer.java
+  cd ..
+  [ "$status" -eq 0 ]
+}
+
+@test "Your server starts successfully" {
+  cd src
+  java echoserver.EchoServer &
+  status=$?
+  kill %1
+  cd ..
+  [ "$status" -eq 0 ]
+}
+
+@test "Your server handles a small bit of text" {
+  cd src
+  rm -f echoserver/*.class
+  javac echoserver/EchoServer.java
+  java echoserver.EchoServer &
+  cd ..
+
+  cd test/sampleBin
+  java echoserver.EchoClient < ../etc/textTest.txt > "$BATS_TMPDIR"/textTest.txt
+  run diff ../etc/textTest.txt "$BATS_TMPDIR"/textTest.txt
+  cd ../..
+  kill %1
+  [ "$status" -eq 0 ]
+}
+
+@test "Your server handles a large chunk of text" {
+  cd src
+  rm -f echoserver/*.class
+  javac echoserver/EchoServer.java
+  java echoserver.EchoServer &
+  cd ..
+
+  cd test/sampleBin
+  java echoserver.EchoClient < ../etc/words.txt > "$BATS_TMPDIR"/words.txt
+  run diff ../etc/words.txt "$BATS_TMPDIR"/words.txt
+  cd ../..
+  kill %1
+  [ "$status" -eq 0 ]
+}
+
+@test "Your server handles binary content" {
+  cd src
+  rm -f echoserver/*.class
+  javac echoserver/EchoServer.java
+  java echoserver.EchoServer &
+  cd ..
+
+  cd test/sampleBin
+  java echoserver.EchoClient < ../etc/pumpkins.jpg > "$BATS_TMPDIR"/pumpkins.jpg
+  run diff ../etc/pumpkins.jpg "$BATS_TMPDIR"/pumpkins.jpg
+  cd ../..
+  kill %1
+  [ "$status" -eq 0 ]
 }

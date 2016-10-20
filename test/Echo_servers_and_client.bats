@@ -2,9 +2,11 @@
 
 setup() {
   BATS_TMPDIR=`mktemp --directory`
-  cd test/sampleBin
+  cd src
+  rm -f echoserver/EchoServer.class
+  javac echoserver/*.java
   java echoserver.EchoServer &
-  cd ../..
+  cd ..
 }
 
 teardown() {
@@ -15,26 +17,8 @@ teardown() {
   sleep 1
 }
 
-@test "Your client code compiles" {
+@test "Your client/server pair handles a small bit of text" {
   cd src
-  rm -f echoserver/EchoClient.class
-  run javac echoserver/EchoClient.java
-  cd ..
-  [ "$status" -eq 0 ]
-}
-
-@test "Your client runs successfully" {
-  cd src
-  java echoserver.EchoClient < ../test/etc/textTest.txt
-  status=$?
-  cd ..
-  [ "$status" -eq 0 ]
-}
-
-@test "Your client handles a small bit of text" {
-  cd src
-  rm -f echoserver/*.class
-  javac echoserver/EchoClient.java
   java echoserver.EchoClient < ../test/etc/textTest.txt > "$BATS_TMPDIR"/textTest.txt
   run diff ../test/etc/textTest.txt "$BATS_TMPDIR"/textTest.txt
   cd ..
@@ -42,10 +26,8 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
-@test "Your client handles a large chunk of text" {
+@test "Your client/server pair handles a large chunk of text" {
   cd src
-  rm -f echoserver/*.class
-  javac echoserver/EchoClient.java
   java echoserver.EchoClient < ../test/etc/words.txt > "$BATS_TMPDIR"/words.txt
   run diff ../test/etc/words.txt "$BATS_TMPDIR"/words.txt
   cd ..
@@ -53,10 +35,8 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
-@test "Your client handles binary content" {
+@test "Your client/server pair handles binary content" {
   cd src
-  rm -f echoserver/*.class
-  javac echoserver/EchoClient.java
   java echoserver.EchoClient < ../test/etc/pumpkins.jpg > "$BATS_TMPDIR"/pumpkins.jpg
   run diff ../test/etc/pumpkins.jpg "$BATS_TMPDIR"/pumpkins.jpg
   cd ..

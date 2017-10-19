@@ -16,7 +16,7 @@ computer to act as server and as client.
 Here we'll implement a simple, socket-based client-server system (the echo
 client and server).
 
-##Table of contents
+## Table of contents
 
 -   [The echo client/server](#-the-echo-clientserver)
     -   [Bats Testing](#-testing)

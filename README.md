@@ -69,7 +69,7 @@ with Java, your project needs the specfic directory structure provided
 in the starter repo. The code has three folders:
 
 -   `src`, which holds the `.java` files where your code resides, and where the `.class` files will live when the tests run your code.
--   `test`, which has three `bats` test scruots, along
+-   `test`, which has three `bats` test scripts, along
     with two other things: an `etc` folder which has several sample
     files you could use to test your code manually (see below), and a
     `sampleBin` folder that has working class file versions of the Echo

@@ -22,8 +22,10 @@ public class EchoClient {
       //getting ready to read from the socket
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         //Recieving text from the Server
             String line = in.readLine();
+	    line = stdIn.readLine();
             System.out.println(line);
         }
      catch (ConnectException ce) {

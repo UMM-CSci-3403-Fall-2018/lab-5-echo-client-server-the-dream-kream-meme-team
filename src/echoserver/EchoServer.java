@@ -14,24 +14,25 @@ public class EchoServer {
         Socket client = sock.accept();
         System.out.println("Got a request!");
         BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-       String line;
-       do 
-       {
-	 line = in.readLine();
-        //Send data back to client
-	if ( line != null){
-		out.println(line);
-	}
-      }
+        PrintWriter writer = new PrintWriter(client.getOutputStream(),true);
+
+        //String line = in.readLine();
+        String line;
+
+        writer.println("Here!");
+
+        while ((line = in.readLine()) != null) {
+          writer.println("now here!");
+          writer.println(line);
+        }
+
       }
 
+}
 
-      }
-    
     catch(IOException ioe){
       System.out.println("We caught an unexpected exception");
       System.err.println(ioe);
     }
-  }  
+  }
 }

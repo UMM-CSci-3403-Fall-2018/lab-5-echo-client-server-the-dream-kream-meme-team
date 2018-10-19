@@ -15,19 +15,29 @@ public class EchoClient {
     }
 
     try {
-      //inputStream.read, outputStream.write
-
       //connect to sever
       Socket socket = new Socket(server, portNumber);
+
       //getting ready to read from the socket
-      PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        //Recieving text from the Server
-            String line = in.readLine();
-	    line = stdIn.readLine();
-            System.out.println(line);
-        }
+      InputStream input = socket.getInputStream();
+      BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+      PrintWriter writer = new PrintWriter(socket.getOutputStream(),true);
+      BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+
+      //send text to server
+      String line = userInput.readLine();
+      writer.println(line);
+
+
+      //Recieving text from the Server
+	    while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+      }
+
+      //close socket when done reading from it
+      socket.close();
+    }
      catch (ConnectException ce) {
       System.out.println("We were unable to connect to " + server);
       System.out.println("You should make sure the server is running.");

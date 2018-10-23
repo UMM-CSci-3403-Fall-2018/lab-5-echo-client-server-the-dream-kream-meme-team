@@ -23,11 +23,12 @@ public class EchoClient {
       InputStream bytes = System.in;
         //this will also get the input stream from the socket so that we can read from it.
             InputStream reader = socket.getInputStream();
-
-            while ((int i = bytes.read()) != -1) {
-                out.write(i);
-                int in = reader.read();
-                System.out.write(in);
+            int tmpByte;
+            int outByte;
+            while ((tmpByte = bytes.read()) != -1) {
+                out.write(tmpByte);
+                outByte = reader.read();
+                System.out.write(outByte);
         }
 
             socket.close();

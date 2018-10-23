@@ -11,11 +11,13 @@ public class Server {
       while (true) {
         Socket client = sock.accept();
         System.out.println("Got a request!");
-        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-        String line = in.readLine();
-        //Send data back to client
-        out.println(line);
+        InputStream in = client.getInputStream();
+        OutputStream out = client.getOutputStream();
+        while((int i = in.read()) != -1) {
+          out.write(i);
+        }
+        //Close's the client socket when we are done.
+        client.close();
 
 
 

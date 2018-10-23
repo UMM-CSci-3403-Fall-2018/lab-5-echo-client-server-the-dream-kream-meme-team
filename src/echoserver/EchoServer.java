@@ -13,7 +13,6 @@ public class EchoServer {
       while (true) {
         Socket client = sock.accept();
         System.out.println("Got a request!");
-<<<<<<< HEAD
         InputStream in = client.getInputStream();
         OutputStream out = client.getOutputStream();
         while((int i = in.read()) != -1) {
@@ -21,20 +20,6 @@ public class EchoServer {
         }
         //Close's the client socket when we are done.
         client.close();
-=======
-        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        PrintWriter writer = new PrintWriter(client.getOutputStream(),true);
-
-        //String line = in.readLine();
-        String line;
->>>>>>> 1bf0e205c9865d55051a9c8a38fa506562516674
-
-        writer.println("Here!");
-
-        while ((line = in.readLine()) != null) {
-          writer.println("now here!");
-          writer.println(line);
-        }
 
       }
 

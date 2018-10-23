@@ -1,4 +1,4 @@
-
+package echoserver;
 import java.net.*;
 import java.io.*;
 
@@ -25,15 +25,19 @@ public class EchoClient {
             InputStream reader = socket.getInputStream();
             int tmpByte;
             int outByte;
+	    // keeps reading bytes until there is no more lines to be read and sends it to the output.
             while ((tmpByte = bytes.read()) != -1) {
                 out.write(tmpByte);
                 outByte = reader.read();
                 System.out.write(outByte);
         }
 
+	// make sure everything is out of buffers to improve the I/O performance
+	System.out.flush();
+	// close dat shizz because we don't want it open.
             socket.close();
 
-            System.out.flush();
+            
 
 
         }

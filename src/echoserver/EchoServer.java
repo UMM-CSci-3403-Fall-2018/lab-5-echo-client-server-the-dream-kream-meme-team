@@ -1,3 +1,4 @@
+package echoserver;
 import java.net.*;
 import java.io.*;
 
@@ -13,9 +14,14 @@ public class EchoServer {
       while (true) {
         Socket client = sock.accept();
         System.out.println("Got a request!");
-        InputStream in = client.getInputStream();
-        OutputStream out = client.getOutputStream();
 
+	//input from the client
+        InputStream in = client.getInputStream();
+
+	//output from the client
+        OutputStream out = client.getOutputStream();
+	
+	//while loop that keeps getting the output from client and sends it back it stops when there is nothing to read
         int tmpByte;
         while((tmpByte = in.read()) != -1) {
           out.write(tmpByte);
